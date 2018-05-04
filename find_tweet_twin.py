@@ -1,6 +1,6 @@
 import pprint
 
-f = open("results200-1.txt", "r")
+f = open("usersToHashtags.txt", "r")
 
 users = {}
 
@@ -17,7 +17,7 @@ for l in lines:
         users[user_name] = [(float(perc), hashtag)]
 f.close()
 
-f = open("hashtagUsers.txt", "r")
+f = open("hashtagsToUsers.txt", "r")
 
 hashtagUsers = {}
 prev = None
