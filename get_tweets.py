@@ -41,23 +41,26 @@ class listener(StreamListener):
 
     def on_status(self, status):
         global results
-        text = status.text
-        screen_name = status.user.screen_name
-        hashtags = self.parse_hashtag(text)
-        
-        if screen_name in results:
-            for hashtag in hashtags:
-                if hashtag in results[screen_name]:
-                    results[screen_name][hashtag] += 1
-                else:
+        if status.lang == 'en':
+            text = status.text
+            screen_name = status.user.screen_name
+            hashtags = self.parse_hashtag(text)
+
+            if screen_name in results:
+                results[screen_name]["__text__"].append(text)
+                for hashtag in hashtags:
+                    if hashtag in results[screen_name]:
+                        results[screen_name][hashtag] += 1
+                    else:
+                        results[screen_name][hashtag] = 1
+            else:
+                results[screen_name] = {}
+                results[screen_name]["__text__"] = [text]
+                for hashtag in hashtags:
                     results[screen_name][hashtag] = 1
-        else:
-            results[screen_name] = {}
-            for hashtag in hashtags:
-                results[screen_name][hashtag] = 1
-                
-        self.__numTweets += 1
-        return self.__numTweets < 100
+
+                self.__numTweets += 1
+                return self.__numTweets < 20
 
     def parse_hashtag(self, string):
         regex = re.compile(r'#(\s\S*)')
