@@ -47,8 +47,8 @@ f.close()
 #print("************HASHTAGS****************")
 #pp.pprint(hashtagUsers)
 
-searchUser = input("Input a user to find his/her friends!")
-#searchUser = "floridarussian"
+#searchUser = input("Input a user to find his/her friends!")
+searchUser = "floridarussian"
 twinTweeters = {}
 
 for hashtag in users[searchUser]:

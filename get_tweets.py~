@@ -5,7 +5,7 @@ import json
 import pprint
 import subprocess
 import re
-
+import sys
 
 ckey = '9iYEHY0pfWIGQ8YFduNGbedQv'
 csecret = 'u9btwE95BSaqobp88lmPYDup2fwFIByqAGEOTbRcBQoRzed4Ym'
@@ -17,6 +17,7 @@ global results, numTweets
 results = {}
 numTweets = {}
 hashtagUsers = {}
+limit = int(sys.argv[1])
 
 class listener(StreamListener):
     def __init__(self, api=None):
@@ -70,7 +71,7 @@ class listener(StreamListener):
 
 
             self.__numTweets += 1
-            return self.__numTweets < 200
+            return self.__numTweets < limit
 
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
@@ -86,8 +87,8 @@ twitterStream.filter(track=["#"])
 
 #pp = pprint.PrettyPrinter(indent=4)
 #pp.pprint(results)
-fout = open("usersByHashtag.txt", "w")
-fout2 = open("hashtagUsers.txt", "w")
+fout = open("usersToHashtags.txt", "w")
+fout2 = open("hashtagsToUsers.txt", "w")
 for user in results:
     for hashtag in results[user]:
         fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "|" + str(numTweets[user]) + "|" + str(results[user][hashtag]/numTweets[user]) + "\n")

@@ -5,7 +5,7 @@ import json
 import pprint
 import subprocess
 import re
-
+import sys
 
 ckey = '9iYEHY0pfWIGQ8YFduNGbedQv'
 csecret = 'u9btwE95BSaqobp88lmPYDup2fwFIByqAGEOTbRcBQoRzed4Ym'
@@ -17,6 +17,7 @@ global results, numTweets
 results = {}
 numTweets = {}
 hashtagUsers = {}
+limit = int(sys.argv[1])
 
 class listener(StreamListener):
     def __init__(self, api=None):
@@ -70,7 +71,7 @@ class listener(StreamListener):
 
 
             self.__numTweets += 1
-            return self.__numTweets < 200
+            return self.__numTweets < limit
 
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
