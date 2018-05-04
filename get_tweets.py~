@@ -64,7 +64,7 @@ class listener(StreamListener):
 
             for hashtag in hashtags:
                 if hashtag in hashtagUsers:
-                    hashtagUsers[hashtag}.append(screen_name)
+                    hashtagUsers[hashtag].append(screen_name)
                 else:
                     hashtagUsers[hashtag] = [screen_name]
 
@@ -95,6 +95,6 @@ fout.close()
 
 for hashtag in hashtagUsers:
     for user in hashtagUsers[hashtag]:
-        fout.write(hashtag + "|" + user + "|" + results[user][hashtag]/numTweets[user] + "\n")
+        fout.write(hashtag + "|" + user + "|" + str(results[user][hashtag]/numTweets[user]) + "\n")
 fout2.close()
 print("finished")
