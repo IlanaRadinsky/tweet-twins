@@ -95,6 +95,6 @@ fout.close()
 
 for hashtag in hashtagUsers:
     for user in hashtagUsers[hashtag]:
-        fout.write(hashtag + "|" + user + "|" + results[user][hashtag]/numTweets[user] + "\n")
+        fout2.write(hashtag + "|" + user + "|" + str(results[user][hashtag]/numTweets[user]) + "\n")
 fout2.close()
 print("finished")
