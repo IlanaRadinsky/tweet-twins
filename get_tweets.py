@@ -44,10 +44,10 @@ class listener(StreamListener):
     def on_status(self, status):
         global results, tweets
         if status.lang == 'en':
-            #text = status.text
+            text = status.text
             screen_name = status.user.screen_name
-            #hashtags = self.parse_hashtag(text)
-            hashtags = status.entities.hashtags
+            hashtags = self.parse_hashtag(text)
+            #hashtags = status.entities['hashtags']
 
 
             if screen_name in results:
@@ -66,7 +66,7 @@ class listener(StreamListener):
                     results[screen_name][hashtag] = 1
 
             for hashtag in hashtags:
-                if hashtag in hashtagUsers:
+                if hashtag in hashtagUsers and screen_name not in hashtagUsers[hashtag]:
                     hashtagUsers[hashtag].append(screen_name)
                 else:
                     hashtagUsers[hashtag] = [screen_name]

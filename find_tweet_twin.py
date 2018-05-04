@@ -59,10 +59,11 @@ for hashtag in users[searchUser]:
     for targetUser in hashtagUsers[hashtag[1]]:
         targetUsage = targetUser[0]
         diff = abs(usage-targetUsage)
-        if targetUser[1] != hashtag[1] and diff < 0.05:
+        if targetUser[1] != searchUser:
+#        if targetUser[1] != hashtag[1] and diff < 0.05:
             if targetUser[1] in twinTweeters:
                 twinTweeters[targetUser[1]] += usage/(1+diff) # the larger the difference between the perc
-                                                          # vals, the smaller your rank will be. the
+                # vals, the smaller your rank will be. the
                                                           # larger the usage percentage, the more your
                                                           # rank will be weighted.
             else:
@@ -71,3 +72,11 @@ for hashtag in users[searchUser]:
 twinTweetersList = [(v,k) for k, v in twinTweeters.items()]
 twinTweetersList.sort(reverse=True)
 print(twinTweetersList)            
+
+fout = open("output.txt", "w")
+ans = "Top Potential Friends:\n"
+for i in range(len(twinTweetersList)):
+    ans += str(i+1) + ". " + twinTweetersList[i][1] + "\n"
+
+fout.write(ans)
+fout.close()

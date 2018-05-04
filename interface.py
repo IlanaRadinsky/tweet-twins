@@ -1,7 +1,8 @@
+import subprocess
 from tkinter import *
 import time
 import random
-from subprocess import call
+from subprocess import check_call
 
 WIDTH = 500
 HEIGHT = 500
@@ -22,7 +23,7 @@ textBox.grid(row=1, column=0, sticky=W)
 outputText = StringVar()
 outputText.set('')
 output = Label(canvas, textvariable=outputText, font="none 12 bold")
-output.grid(row=0, column=3, sticky=E)
+output.grid(row=2, column=0, sticky=E)
 
 def close_window():
     window.destroy()
@@ -34,8 +35,10 @@ def submit():
         subprocess.check_call("python3 find_tweet_twin.py " + text, shell=True)
         f = open("output.txt")
         l = f.readlines()
+        ans = ""
         for line in l:
-            outputText.set(line)
+            ans += line + "\n"
+        outputText.set(ans)
         
 
 # exit button
