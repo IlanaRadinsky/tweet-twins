@@ -3,6 +3,9 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 import json
 import pprint
+import subprocess
+import re
+
 
 ckey = '9iYEHY0pfWIGQ8YFduNGbedQv'
 csecret = 'u9btwE95BSaqobp88lmPYDup2fwFIByqAGEOTbRcBQoRzed4Ym'
@@ -46,6 +49,11 @@ class listener(StreamListener):
         self.__numTweets += 1
         return self.__numTweets < 10
 
+    def parse_hashtag(self, string):
+        regex = re.compile(r'#\S*')
+        found = re.findall(regex, string)
+        return found
+        
 auth = OAuthHandler(ckey, csecret)
 auth.set_access_token(atoken, asecret)
 
