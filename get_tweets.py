@@ -66,7 +66,7 @@ class listener(StreamListener):
                     results[screen_name][hashtag] = 1
 
             for hashtag in hashtags:
-                if hashtag in hashtagUsers:
+                if hashtag in hashtagUsers and screen_name not in hashtagUsers[hashtag]:
                     hashtagUsers[hashtag].append(screen_name)
                 else:
                     hashtagUsers[hashtag] = [screen_name]

@@ -59,14 +59,14 @@ for hashtag in users[searchUser]:
     for targetUser in hashtagUsers[hashtag[1]]:
         targetUsage = targetUser[0]
         diff = abs(usage-targetUsage)
-        if targetUser[1] != hashtag[1] and diff < 0.05:
-            if targetUser[1] in twinTweeters:
-                twinTweeters[targetUser[1]] += usage/(1+diff) # the larger the difference between the perc
+#        if targetUser[1] != hashtag[1] and diff < 0.05:
+        if targetUser[1] in twinTweeters:
+            twinTweeters[targetUser[1]] += usage/(1+diff) # the larger the difference between the perc
                                                           # vals, the smaller your rank will be. the
                                                           # larger the usage percentage, the more your
                                                           # rank will be weighted.
-            else:
-                twinTweeters[targetUser[1]] = usage/(1+diff)
+        else:
+            twinTweeters[targetUser[1]] = usage/(1+diff)
 
 twinTweetersList = [(v,k) for k, v in twinTweeters.items()]
 twinTweetersList.sort(reverse=True)
