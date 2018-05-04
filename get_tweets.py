@@ -64,7 +64,7 @@ class listener(StreamListener):
                 self.__numTweets += 1
 
                 return self.__numTweets < 200
-
+            
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
         found = re.findall(regex, string)
@@ -82,7 +82,6 @@ twitterStream.filter(track=["#"])
 fout = open("results200-1.txt", "w")
 for user in results:
     for hashtag in results[user]:
-        fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "|" +
-                   str(numTweets[user]) + "\n")
+        fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "|" + str(numTweets[user]) + "|" + str(results[user][hashtag]/numTweets[user]) + "\n")
 fout.close()
 print("finished")
