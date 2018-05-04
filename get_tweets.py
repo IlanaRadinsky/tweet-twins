@@ -86,8 +86,8 @@ twitterStream.filter(track=["#"])
 
 #pp = pprint.PrettyPrinter(indent=4)
 #pp.pprint(results)
-fout = open("results200-1.txt", "w")
-fout2 = open("hashtagUsers.txt", "w")
+fout = open("usersToHashtags.txt", "w")
+fout2 = open("hashtagsToUsers.txt", "w")
 for user in results:
     for hashtag in results[user]:
         fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "|" + str(numTweets[user]) + "|" + str(results[user][hashtag]/numTweets[user]) + "\n")
