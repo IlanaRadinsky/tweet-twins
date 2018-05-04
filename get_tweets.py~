@@ -13,14 +13,14 @@ csecret = 'u9btwE95BSaqobp88lmPYDup2fwFIByqAGEOTbRcBQoRzed4Ym'
 atoken = '978265942668054528-3OVrymkyZPXMMUVnEDOIpnA6KUBU92T'
 asecret = 'qO3OmfXJK61bBZStpUw5F3ZbPKhK1gZ3Zlim4OO2DaGJ5'
 
-global results
+global results, numTweets
 results = {}
+numTweets = {}
 
 class listener(StreamListener):
     def __init__(self, api=None):
         super(listener, self).__init__()
         self.__numTweets = 0
-        self.results = {}
        
     #def on_data(self, data):
     def ignore():
@@ -40,7 +40,7 @@ class listener(StreamListener):
         print(status)
 
     def on_status(self, status):
-        global results
+        global results, tweets
         if status.lang == 'en':
             text = status.text
             screen_name = status.user.screen_name
@@ -48,6 +48,7 @@ class listener(StreamListener):
 
             if screen_name in results:
                 #results[screen_name]["__text__"].append(text)
+                numTweets[screen_name] += 1
                 for hashtag in hashtags:
                     if hashtag in results[screen_name]:
                         results[screen_name][hashtag] += 1
@@ -56,11 +57,13 @@ class listener(StreamListener):
             else:
                 results[screen_name] = {}
                 #results[screen_name]["__text__"] = [text]
+                numTweets[screen_name] = 1
                 for hashtag in hashtags:
                     results[screen_name][hashtag] = 1
 
                 self.__numTweets += 1
-                return self.__numTweets < 20
+
+                return self.__numTweets < 200
 
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
@@ -79,6 +82,7 @@ twitterStream.filter(track=["#"])
 fout = open("results.txt", "w")
 for user in results:
     for hashtag in results[user]:
-        fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "\n")
+        fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "|" +
+                   str(numTweets[user]) + "\n")
 fout.close()
 print("finished")
