@@ -20,10 +20,10 @@ class listener(StreamListener):
     def __init__(self, api=None):
         super(listener, self).__init__()
         self.__numTweets = 0
+        self.results = {}
        
     #def on_data(self, data):
     def ignore():
-        global results
         pp = pprint.PrettyPrinter(indent=4)
 
         data = data.strip()
@@ -40,12 +40,15 @@ class listener(StreamListener):
         print(status)
 
     def on_status(self, status):
+        global results
         text = status.text
         screen_name = status.user.screen_name
+        hashtags = self.parse_hashtag(text)
+        
         if screen_name in results:
-                results[screen_name].append(text)
+                results[screen_name].append((text,hashtags))
         else:
-                results[screen_name] = [text]
+                results[screen_name] = [(text, hashtags)]
         self.__numTweets += 1
         return self.__numTweets < 10
 
