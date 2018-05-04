@@ -63,8 +63,8 @@ class listener(StreamListener):
 
                 self.__numTweets += 1
 
-                return self.__numTweets < 200
-            
+            return self.__numTweets < 200
+
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
         found = re.findall(regex, string)
