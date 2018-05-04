@@ -1,4 +1,4 @@
-import pprint
+import pprint, sys
 
 f = open("usersToHashtags.txt", "r")
 
@@ -50,7 +50,7 @@ f.close()
 #print("************HASHTAGS****************")
 #pp.pprint(hashtagUsers)
 
-searchUser = input("Input a user to find his/her friends!")
+searchUser = sys.argv[1]
 #searchUser = "floridarussian"
 twinTweeters = {}
 
