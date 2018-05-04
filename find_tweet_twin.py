@@ -29,16 +29,19 @@ for l in lines:
     user_name = ans[1]
     perc = ans[2]
 
-    if hashtag in hashtagUsers:
-        hashtagUsers[hashtag].append((float(perc), user_name))
-    else:
-        hashtagUsers[hashtag] = [(float(perc), user_name)]
+    try:
+        if hashtag in hashtagUsers:
+            hashtagUsers[hashtag].append((float(perc), user_name))
+        else:
+            hashtagUsers[hashtag] = [(float(perc), user_name)]
 
-    if prev and hashtag != prev:
-        hashtagUsers[prev].sort()
-
-    prev = hashtag
+        if prev and hashtag != prev:
+            hashtagUsers[prev].sort()
+       
+        prev = hashtag
     
+    except:
+        continue
 f.close()
 
 #pp = pprint.PrettyPrinter(indent=4)
