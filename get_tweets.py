@@ -3,6 +3,9 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 import json
 import pprint
+import subprocess
+import re
+
 
 ckey = '9iYEHY0pfWIGQ8YFduNGbedQv'
 csecret = 'u9btwE95BSaqobp88lmPYDup2fwFIByqAGEOTbRcBQoRzed4Ym'
@@ -17,10 +20,10 @@ class listener(StreamListener):
     def __init__(self, api=None):
         super(listener, self).__init__()
         self.__numTweets = 0
+        self.results = {}
        
     #def on_data(self, data):
     def ignore():
-        global results
         pp = pprint.PrettyPrinter(indent=4)
 
         data = data.strip()
@@ -37,15 +40,33 @@ class listener(StreamListener):
         print(status)
 
     def on_status(self, status):
-        text = status.text
-        screen_name = status.user.screen_name
-        if screen_name in results:
-                results[screen_name].append(text)
-        else:
-                results[screen_name] = [text]
-        self.__numTweets += 1
-        return self.__numTweets < 10
+        global results
+        if status.lang == 'en':
+            text = status.text
+            screen_name = status.user.screen_name
+            hashtags = self.parse_hashtag(text)
 
+            if screen_name in results:
+                results[screen_name]["__text__"].append(text)
+                for hashtag in hashtags:
+                    if hashtag in results[screen_name]:
+                        results[screen_name][hashtag] += 1
+                    else:
+                        results[screen_name][hashtag] = 1
+            else:
+                results[screen_name] = {}
+                results[screen_name]["__text__"] = [text]
+                for hashtag in hashtags:
+                    results[screen_name][hashtag] = 1
+
+                self.__numTweets += 1
+                return self.__numTweets < 200
+
+    def parse_hashtag(self, string):
+        regex = re.compile(r'#\s*(\S*)')
+        found = re.findall(regex, string)
+        return found
+        
 auth = OAuthHandler(ckey, csecret)
 auth.set_access_token(atoken, asecret)
 
