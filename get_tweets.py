@@ -47,7 +47,7 @@ class listener(StreamListener):
             hashtags = self.parse_hashtag(text)
 
             if screen_name in results:
-                results[screen_name]["__text__"].append(text)
+                #results[screen_name]["__text__"].append(text)
                 for hashtag in hashtags:
                     if hashtag in results[screen_name]:
                         results[screen_name][hashtag] += 1
@@ -55,12 +55,12 @@ class listener(StreamListener):
                         results[screen_name][hashtag] = 1
             else:
                 results[screen_name] = {}
-                results[screen_name]["__text__"] = [text]
+                #results[screen_name]["__text__"] = [text]
                 for hashtag in hashtags:
                     results[screen_name][hashtag] = 1
 
                 self.__numTweets += 1
-                return self.__numTweets < 200
+                return self.__numTweets < 20
 
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
@@ -74,5 +74,11 @@ twitterStream = Stream(auth, listener())
 
 twitterStream.filter(track=["#"])
 
-pp = pprint.PrettyPrinter(indent=4)
-pp.pprint(results)
+#pp = pprint.PrettyPrinter(indent=4)
+#pp.pprint(results)
+fout = open("results.txt", "w")
+for user in results:
+    for hashtag in results[user]:
+        fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "\n")
+fout.close()
+print("finished")
