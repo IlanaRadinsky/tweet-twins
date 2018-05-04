@@ -62,6 +62,7 @@ class listener(StreamListener):
                     results[screen_name][hashtag] = 1
 
                 self.__numTweets += 1
+
                 return self.__numTweets < 5
 
     def parse_hashtag(self, string):
