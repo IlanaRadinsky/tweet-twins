@@ -16,6 +16,7 @@ asecret = 'qO3OmfXJK61bBZStpUw5F3ZbPKhK1gZ3Zlim4OO2DaGJ5'
 global results, numTweets
 results = {}
 numTweets = {}
+hashtagUsers = {}
 
 class listener(StreamListener):
     def __init__(self, api=None):
@@ -61,15 +62,16 @@ class listener(StreamListener):
                 for hashtag in hashtags:
                     results[screen_name][hashtag] = 1
 
-                self.__numTweets += 1
+            for hashtag in hashtags:
+                if hashtag in hashtagUsers:
+                    hashtagUsers[hashtag}.append(screen_name)
+                else:
+                    hashtagUsers[hashtag] = [screen_name]
 
-<<<<<<< HEAD
-                return self.__numTweets < 200
-            
-=======
+
+            self.__numTweets += 1
             return self.__numTweets < 200
 
->>>>>>> cab24a1106d96f037ae54554fc2f4d9757c9bdb9
     def parse_hashtag(self, string):
         regex = re.compile(r'#\s*(\S*)')
         found = re.findall(regex, string)
@@ -85,8 +87,14 @@ twitterStream.filter(track=["#"])
 #pp = pprint.PrettyPrinter(indent=4)
 #pp.pprint(results)
 fout = open("results200-1.txt", "w")
+fout2 = open("hashtagUsers.txt", "w")
 for user in results:
     for hashtag in results[user]:
         fout.write(str(user) + "|" + str(hashtag) + "|" + str(results[user][hashtag]) + "|" + str(numTweets[user]) + "|" + str(results[user][hashtag]/numTweets[user]) + "\n")
 fout.close()
+
+for hashtag in hashtagUsers:
+    for user in hashtagUsers[hashtag]:
+        fout.write(hashtag + "|" + user + "|" + results[user][hashtag]/numTweets[user] + "\n")
+fout2.close()
 print("finished")
