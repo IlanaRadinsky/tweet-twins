@@ -44,10 +44,10 @@ class listener(StreamListener):
     def on_status(self, status):
         global results, tweets
         if status.lang == 'en':
-            #text = status.text
+            text = status.text
             screen_name = status.user.screen_name
-            #hashtags = self.parse_hashtag(text)
-            hashtags = status.entities.hashtags
+            hashtags = self.parse_hashtag(text)
+            #hashtags = status.entities['hashtags']
 
 
             if screen_name in results:
