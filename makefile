@@ -1,7 +1,6 @@
-make all: output.txt
+make all: usersToHashtags.txt hashtagsToUsers.txt
 
 usersToHashtags.txt hashtagsToUsers.txt: get_tweets.py
 	python3 get_tweets.py 1000
 
-output.txt: usersToHashtags.txt hashtagsToUsers.txt find_tweet_twin.py
-	python3 find_tweet_twin.py "AnnahJohwanna" | tee output.txt
+
